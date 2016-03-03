@@ -11,39 +11,46 @@ describe('Course List Use Case', function () {
         use_case = new CourseList(mockedHttpAdapter);
     });
 
-    xit('empty course list', function () {
+    it('empty course list', function (done) {
 
         spyOn(mockedHttpAdapter, 'all').and.returnValue([]);
 
-        var successData = jasmine.createSpy('successSpy');
-        var successFunction = {
-          success: successData
-        }
-        use_case.execute(successFunction);
+        use_case.execute(function showRetrievedCourseList(err, data){
+            expect(mockedHttpAdapter.all).toHaveBeenCalled();
 
-        expect(mockedHttpAdapter.all).toHaveBeenCalled();
-
-        expect(successData.calls.first().object).toBe(successFunction);
-        expect(successData.calls.mostRecent().object).toEquals([]);
+            expect(err).toBe(null);
+            expect(data).toEqual([]);
+            done();
+        });
     });
 
-    xit('more than one course', function () {
+    it('more than one course', function (done) {
         var courseList = [
             {code: 1234, title: "gestire gli scope", date: "12/12/12", price: 1000},
             {code: 2222, title: "angular ma chissene", date: "11/11/11", price: 2000}
         ];
         spyOn(mockedHttpAdapter, 'all').and.returnValue(courseList);
 
-        expect(use_case.execute()).toEqual(courseList);
+        use_case.execute(function showRetrievedCourseList(err, data){
+            expect(mockedHttpAdapter.all).toHaveBeenCalled();
 
-        expect(mockedHttpAdapter.all).toHaveBeenCalled();
+            expect(err).toBe(null);
+            expect(data).toEqual(courseList);
+            done();
+        });
     });
 
-    xit('error from adapter retrival',function(){
-      spyOn(mockedHttpAdapter, 'all').and.throwError();
+    it('error from adapter retrieval',function(done){
+      spyOn(mockedHttpAdapter, 'all').and.returnValue(new Error('Unable to reach remote http server'));
 
-      expect(use_case.execute()).toThrow();
-      expect(mockedHttpAdapter.all).toHaveBeenCalled();
+        use_case.execute(function showRetrievedCourseList(err, data){
+            expect(mockedHttpAdapter.all).toHaveBeenCalled();
+
+            expect(err).not.toBe(null);
+            expect(err.message).toEqual('List not available');
+            expect(data).toBe(null);
+            done();
+        });
     });
 
 });
