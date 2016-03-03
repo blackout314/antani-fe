@@ -1,17 +1,17 @@
 'use strict';
 
-function CourseList(adapter) {
-    this.adapter=adapter;
+function CourseList(courseRetrieverAdapter) {
+    this.courseRetrieverAdapter=courseRetrieverAdapter;
 }
 
 
 CourseList.prototype.execute = function(callback){
 
-    var courseList = this.adapter.all();
+    this.courseRetrieverAdapter.all(function(err, retrievedCourseList){
+        if(err){
+            callback(new Error('List not available'), null);
+        }
 
-    if(courseList instanceof Error)
-        callback(new Error('List not available'), null);
-
-    else
-        callback(null, courseList);
+        callback(null, retrievedCourseList);
+    });
 };

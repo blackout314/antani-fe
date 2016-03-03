@@ -1,23 +1,22 @@
 'use strict';
 
 describe('Course List Use Case', function () {
-    var mockedHttpAdapter, use_case;
+    var fakeCourseRetrieverAdapter, use_case, successResponse, error=null;
 
     beforeEach(function () {
-        mockedHttpAdapter = {
-            all: null
+        fakeCourseRetrieverAdapter = {
+            all: function (callback) {
+                callback(error, successResponse);
+            }
         };
 
-        use_case = new CourseList(mockedHttpAdapter);
+        use_case = new CourseList(fakeCourseRetrieverAdapter);
     });
 
     it('empty course list', function (done) {
-
-        spyOn(mockedHttpAdapter, 'all').and.returnValue([]);
+        successResponse=[];
 
         use_case.execute(function showRetrievedCourseList(err, data){
-            expect(mockedHttpAdapter.all).toHaveBeenCalled();
-
             expect(err).toBe(null);
             expect(data).toEqual([]);
             done();
@@ -25,30 +24,26 @@ describe('Course List Use Case', function () {
     });
 
     it('more than one course', function (done) {
-        var courseList = [
+        successResponse = [
             {code: 1234, title: "gestire gli scope", date: "12/12/12", price: 1000},
             {code: 2222, title: "angular ma chissene", date: "11/11/11", price: 2000}
         ];
-        spyOn(mockedHttpAdapter, 'all').and.returnValue(courseList);
 
         use_case.execute(function showRetrievedCourseList(err, data){
-            expect(mockedHttpAdapter.all).toHaveBeenCalled();
 
             expect(err).toBe(null);
-            expect(data).toEqual(courseList);
+            expect(data).toEqual(successResponse);
             done();
         });
     });
 
     it('error from adapter retrieval',function(done){
-      spyOn(mockedHttpAdapter, 'all').and.returnValue(new Error('Unable to reach remote http server'));
+        error = new Error('Unable to reach remote http server');
 
         use_case.execute(function showRetrievedCourseList(err, data){
-            expect(mockedHttpAdapter.all).toHaveBeenCalled();
 
             expect(err).not.toBe(null);
             expect(err.message).toEqual('List not available');
-            expect(data).toBe(null);
             done();
         });
     });
