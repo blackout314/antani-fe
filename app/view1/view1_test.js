@@ -10,7 +10,6 @@ describe('myApp.view1 module', function() {
       //spec body
       var view1Ctrl = $controller('View1Ctrl');
       expect(view1Ctrl).toBeDefined();
-      expect(true).toBe(false);
     }));
 
   });
