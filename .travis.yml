@@ -15,5 +15,6 @@ script:
 
 deploy:
   provider: heroku
+  app: antani-fe
   api_key:
     secure: 9df3cd55-f743-4e64-a8d3-b6281765b49c
