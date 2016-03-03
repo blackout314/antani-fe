@@ -34,3 +34,4 @@ node_modules
 
 .idea
 app/app.component.js*
+typings
