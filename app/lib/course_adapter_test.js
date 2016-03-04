@@ -2,12 +2,12 @@
 
 describe("Course REST adapter", function () {
 
-    var onSuccess;
+    var callback;
     var adapter;
 
     beforeEach(function () {
         jasmine.Ajax.install();
-        onSuccess = jasmine.createSpy("success");
+        callback = jasmine.createSpy("success");
         adapter = new RestAdapter();
     });
 
@@ -18,7 +18,7 @@ describe("Course REST adapter", function () {
     describe('all courses scenario', function () {
 
         it('should invoke default /courses GET ', function () {
-            adapter.all(onSuccess);
+            adapter.all(callback);
             expect(jasmine.Ajax.requests.mostRecent().method).toBe('GET');
             expect(jasmine.Ajax.requests.mostRecent().url).toBe('https://antani-be.herokuapp.com/courses');
         });
@@ -26,7 +26,7 @@ describe("Course REST adapter", function () {
 
         it('should invoke /courses GET ', function () {
             adapter = new RestAdapter("https://any");
-            adapter.all(onSuccess);
+            adapter.all(callback);
             expect(jasmine.Ajax.requests.mostRecent().method).toBe('GET');
             expect(jasmine.Ajax.requests.mostRecent().url).toBe('https://any/courses');
         });
@@ -34,8 +34,8 @@ describe("Course REST adapter", function () {
 
         it('should successfully get not empty course list', function () {
 
-            adapter.all(onSuccess);
-            expect(onSuccess).not.toHaveBeenCalled();
+            adapter.all(callback);
+            expect(callback).not.toHaveBeenCalled();
 
             var mockedRequest = jasmine.Ajax.requests.mostRecent();
 
@@ -50,7 +50,7 @@ describe("Course REST adapter", function () {
                 }
             };
             mockedRequest.respondWith(mockedResponse.success);
-            expect(onSuccess).toHaveBeenCalledWith(null, JSON.parse(courseList));
+            expect(callback).toHaveBeenCalledWith(null, JSON.parse(courseList));
         });
 
     });
@@ -58,9 +58,29 @@ describe("Course REST adapter", function () {
     describe('new course subscription scenario', function () {
 
         it('should invoke /courses/[id]/participants POST', function () {
-            adapter.subscribeParticipant('123ABC', onSuccess);
+            adapter.subscribeParticipant('123ABC', callback);
             expect(jasmine.Ajax.requests.mostRecent().method).toBe('POST');
+            expect(jasmine.Ajax.requests.mostRecent().requestHeaders['Content-Type']).toBe("application/json;Charset=UTF-8");
+            expect(jasmine.Ajax.requests.mostRecent().params).toBe("{}");
             expect(jasmine.Ajax.requests.mostRecent().url).toBe('https://antani-be.herokuapp.com/courses/123ABC/participants');
+        });
+
+        it('should successfully add a participant ', function () {
+            adapter.subscribeParticipant('123ABC', callback);
+
+            expect(callback).not.toHaveBeenCalled();
+
+            var mockedRequest = jasmine.Ajax.requests.mostRecent();
+            var mockedResponse =
+            {
+                success: {
+                    "status": 200,
+                }
+            };
+            mockedRequest.respondWith(mockedResponse.success);
+
+            expect(callback).toHaveBeenCalledWith(null,"OK");
+            expect(jasmine.Ajax.requests.mostRecent().status).toBe(200);
         });
 
     });
