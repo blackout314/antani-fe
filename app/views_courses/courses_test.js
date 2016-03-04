@@ -3,6 +3,7 @@
 describe('course list view', function () {
 
     var courseListStub;
+    var courseView;
 
     beforeEach(
         function () {
@@ -27,22 +28,26 @@ describe('course list view', function () {
                     );
                 }
             };
+
+            $('body').html('<div id="main-container"></div>');
+            courseView = new CoursesView(
+                {
+                    courseRepository: courseListStub,
+                    el: $('#main-container')
+                });
+            courseView.render();
         });
 
     it("shows two courses", function () {
-
-        var attachTemplateTo = $('<div id="#main-container"></div>');
-        var view = new CoursesView(
-            {
-                courseRepository: courseListStub,
-                el: attachTemplateTo
-            });
-        view.render();
-        expect(view.$el.find('.course').length).toBe(3);
+        expect(courseView.$el.find('.course').length).toBe(3);
     });
 
+    xit("subscribe to course", function () {
 
-    it("select o", function () {
+        spyOn(courseView,"subscribe");
+        $(".btn")[0].click();
+        expect(courseView.subscribe).toHaveBeenCalled();
+
     });
 
-    });
+});
