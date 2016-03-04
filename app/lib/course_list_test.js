@@ -41,8 +41,6 @@ describe('Course List Use Case', function () {
         error = new Error('Unable to reach remote http server');
 
         use_case.execute(function showRetrievedCourseList(err, data){
-
-            expect(err).not.toBe(null);
             expect(err.message).toEqual('List not available');
             done();
         });

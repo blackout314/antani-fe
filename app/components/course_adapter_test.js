@@ -1,59 +1,45 @@
-
-var RestAdapter = function(newXhr) {
-    var xhr = newXhr;
-};
-RestAdapter.prototype.retrieveAllCourses = function(callback){
-
-    //xhr.open("GET", "/courses");
-    //xhr.send();
-
-};
+'use strict';
 
 describe("In-memory Course adapter", function () {
 
+    var onSuccess;
+    var adapter;
+
     beforeEach(function () {
         jasmine.Ajax.install();
+        onSuccess = jasmine.createSpy("success");
+        adapter = new RestAdapter();
     });
+
     afterEach(function () {
         jasmine.Ajax.uninstall();
     });
 
-    it('should call remote rest client', function (done) {
 
-        var doneFn = jasmine.createSpy("success");
-
-        var xhr = new XMLHttpRequest();
-        xhr.onreadystatechange = function (args) {
-            if (this.readyState == this.DONE) {
-                doneFn(this.responseText);
-            }
-        };
-
-
-        xhr.open("GET", "/courses");
-        xhr.send();
-
-
-
-        var adapter = new RestAdapter(xhr);
-        console.log(jasmine.Ajax.requests.mostRecent());
-
+    it('should invoke /course GET ', function () {
+        adapter.all(onSuccess);
         expect(jasmine.Ajax.requests.mostRecent().url).toBe('/courses');
-        expect(doneFn).not.toHaveBeenCalled();
-
-        jasmine.Ajax.requests.mostRecent().response({
-            "status": 200,
-            "contentType": 'application/json',
-            "responseJSON": []
-        });
-
-        expect(doneFn).toHaveBeenCalledWith('awesome response');
-
-
-        expect(adapter.retrieveAllCourses(function(){ done();   }))
     });
 
-    xit('should get an empty list from remote service', function () {
 
-    })
+    it('should succesfully get not empty course list', function () {
+        adapter.all(onSuccess);
+        expect(onSuccess).not.toHaveBeenCalled();
+
+        var mockedRequest = jasmine.Ajax.requests.mostRecent();
+
+        var courseList ='[{ "code": 1234, "title": "gestire gli scope", "date": "12/12/12", "price": 1000},' +
+            '{"code": 2222, "title": "angular ma chissene", "date": "11/11/11", "price": 2000}]';
+        var mockedResponse =
+        {
+            success: {
+                "status": 200,
+                "contentType": 'text/plain',
+                "responseText": courseList
+            }
+        }
+        mockedRequest.respondWith(mockedResponse.success);
+        expect(onSuccess).toHaveBeenCalledWith(null,JSON.parse(courseList));
+    });
+
 });
