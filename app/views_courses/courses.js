@@ -10,14 +10,17 @@ var CoursesView = Backbone.View.extend({
     render: function() {
         var that = this;
         this.courseRepository.execute(function(error, courses) {
-            var html = "<ul>";
+
+            var html = '<table class="table"><thead><tr><th>Code</th><th>Title</th><th>Price</th><th>Date</th></tr></thead><tbody>';
             _.each(courses, function(c) {
                 html +=
-                    "<li class='course'>"+
-                        c.code+" - "+ c.title +" - "+ c.price +" - "+ c.dateTime+
-                    "</li>";
+                    '<tr class="course">'+
+
+                    '<td>'+c.code+'</td><td>'+ c.title +'</td><td>'+ c.price +'</td><td>'+ c.dateTime+'</td>'+
+                    "</tr>";
             });
-            html += "</ul>";
+            html += '</tbody></table>';
+            
             that.$el.html(html);
         });
         return this;

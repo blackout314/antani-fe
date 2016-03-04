@@ -19,7 +19,7 @@ describe('course list view', function () {
                             {"code": "02", "title": "Clean Code", "price": 200, "dateTime": "2016-04-02T18:36:14"},
 
                             {
-                                "code": "007",
+                                "code": "03",
                                 "title": "Android basics for Felice",
                                 "price": 10,
                                 "dateTime": "2016-04-02T18:36:14"
@@ -32,16 +32,17 @@ describe('course list view', function () {
     it("shows two courses", function () {
 
         var attachTemplateTo = $('<div id="#main-container"></div>');
-
         var view = new CoursesView(
             {
                 courseRepository: courseListStub,
                 el: attachTemplateTo
             });
         view.render();
-
         expect(view.$el.find('.course').length).toBe(3);
     });
 
 
-});
+    it("select o", function () {
+    });
+
+    });
