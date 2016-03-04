@@ -7,6 +7,9 @@ module.exports = function(config){
       'app/bower_components/angular/angular.js',
       'app/bower_components/angular-route/angular-route.js',
       'app/bower_components/angular-mocks/angular-mocks.js',
+      'app/bower_components/underscore/underscore.js',
+        'app/bower_components/jquery/dist/jquery.js',
+        'app/bower_components/backbone/backbone.js',
       'app/components/**/*.js',
       'app/lib/**/*.js',
       'app/view*/**/*.js'

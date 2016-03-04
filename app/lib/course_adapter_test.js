@@ -23,6 +23,7 @@ describe("In-memory Course adapter", function () {
 
 
     it('should succesfully get not empty course list', function () {
+
         adapter.all(onSuccess);
         expect(onSuccess).not.toHaveBeenCalled();
 
