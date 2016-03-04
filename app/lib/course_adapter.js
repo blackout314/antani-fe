@@ -12,6 +12,7 @@ RestAdapter.prototype.all = function (successCallback) {
             successCallback(null,JSON.parse(this.responseText));
         }
     };
+    //http://antani-be.herokuapp.com/courses
     xhr.open("GET", "/courses",true);
     xhr.send();
 };

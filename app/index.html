@@ -12,26 +12,36 @@
 </head>
 <body>
 
-  <div id="main-container"></div>
-  <!--[if lt IE 7]>
-      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-  <![endif]-->
+<div id="main-container"></div>
+<!--[if lt IE 7]>
+<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
+  your browser</a> to improve your experience.</p>
+<![endif]-->
 
 
-  <!-- In production use:
-  <script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
-  -->
-  <script src="bower_components/underscore/underscore-min.js"></script>
-  <script src="bower_components/jquery/dist/jquery.js"></script>
-  <script src="bower_components/backbone/backbone-min.js"></script>
+<!-- In production use:
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/x.x.x/angular.min.js"></script>
+-->
+<script src="bower_components/underscore/underscore-min.js"></script>
+<script src="bower_components/jquery/dist/jquery.js"></script>
+<script src="bower_components/backbone/backbone-min.js"></script>
 
-  <script src="views_courses/courses.js"></script>
+<script src="lib/course_adapter.js"></script>
+<script src="lib/course_list.js"></script>
+<script src="views_courses/courses.js"></script>
 <script lanquage="javascript">
-  document.onload(function(){
-    var view = CoursesView({
-      el: $('#main-container'),
-      coursesRepository: new CourseList(new RestAdapter())})
-  });
+
+
+  $(document).ready(
+
+    function () {
+      var view = new CoursesView(
+        {
+          courseRepository: new CourseList(new RestAdapter()),
+          el: $('#main-container')
+        });
+      view.render();
+    });
 </script>
 
 </body>

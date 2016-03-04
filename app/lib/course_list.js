@@ -4,7 +4,6 @@ function CourseList(courseRetrieverAdapter) {
     this.courseRetrieverAdapter = courseRetrieverAdapter;
 }
 
-
 CourseList.prototype.execute = function (callback) {
 
     this.courseRetrieverAdapter.all(
