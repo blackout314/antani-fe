@@ -15,10 +15,16 @@ describe("In-memory Course adapter", function () {
         jasmine.Ajax.uninstall();
     });
 
+    it('should invoke default /course GET ', function () {
+        adapter.all(onSuccess);
+        expect(jasmine.Ajax.requests.mostRecent().url).toBe('https://antani-be.herokuapp.com/courses');
+    });
+
 
     it('should invoke /course GET ', function () {
+        adapter = new RestAdapter("https://any");
         adapter.all(onSuccess);
-        expect(jasmine.Ajax.requests.mostRecent().url).toBe('/courses');
+        expect(jasmine.Ajax.requests.mostRecent().url).toBe('https://any/courses');
     });
 
 

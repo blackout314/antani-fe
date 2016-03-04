@@ -26,11 +26,11 @@
   <script src="bower_components/backbone/backbone-min.js"></script>
 
   <script src="views_courses/courses.js"></script>
-<script lanquage="javascript">
+<script language="javascript">
   document.onload(function(){
     var view = CoursesView({
       el: $('#main-container'),
-      coursesRepository: new CourseList(new RestAdapter())})
+      coursesRepository: new CourseList(new RestAdapter("https://antani-be.herokuapp.com/"))})
   });
 </script>
 
