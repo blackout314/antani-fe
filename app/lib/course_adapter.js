@@ -1,5 +1,5 @@
-var RestAdapter = function () {
-
+var RestAdapter = function (serviceEndpointBaseURL) {
+ this.serviceEndpointBaseURL = serviceEndpointBaseURL || "https://antani-be.herokuapp.com";
 };
 
 RestAdapter.prototype.all = function (successCallback) {
@@ -12,7 +12,6 @@ RestAdapter.prototype.all = function (successCallback) {
             successCallback(null,JSON.parse(this.responseText));
         }
     };
-    //http://antani-be.herokuapp.com/courses
-    xhr.open("GET", "/courses",true);
+    xhr.open("GET", this.serviceEndpointBaseURL+"/courses",true);
     xhr.send();
 };

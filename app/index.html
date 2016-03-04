@@ -37,7 +37,7 @@
     function () {
       var view = new CoursesView(
         {
-          courseRepository: new CourseList(new RestAdapter()),
+          courseRepository: new CourseList(new RestAdapter("https://antani-be.herokuapp.com")),
           el: $('#main-container')
         });
       view.render();
