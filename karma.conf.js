@@ -14,7 +14,7 @@ module.exports = function(config){
 
     autoWatch : true,
 
-    frameworks: ['jasmine'],
+    frameworks: ['jasmine-ajax','jasmine'],
 
     browsers : ['Chrome'],
 
@@ -22,6 +22,7 @@ module.exports = function(config){
             'karma-chrome-launcher',
             'karma-firefox-launcher',
             'karma-jasmine',
+            'karma-jasmine-ajax',
             'karma-junit-reporter'
             ],
 
