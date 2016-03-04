@@ -65,21 +65,18 @@ describe("Course REST adapter", function () {
             expect(jasmine.Ajax.requests.mostRecent().url).toBe('https://antani-be.herokuapp.com/courses/123ABC/participants');
         });
 
-        it('should successfully add a participant ', function () {
+        it('should successfully add a new anonymous participant', function () {
             adapter.subscribeParticipant('123ABC', callback);
 
             expect(callback).not.toHaveBeenCalled();
 
             var mockedRequest = jasmine.Ajax.requests.mostRecent();
-            var mockedResponse =
-            {
-                success: {
-                    "status": 200,
-                }
+            var mockedResponse = {
+                success: { "status": 200 }
             };
             mockedRequest.respondWith(mockedResponse.success);
 
-            expect(callback).toHaveBeenCalledWith(null,"OK");
+            expect(callback).toHaveBeenCalledWith(null, "OK");
             expect(jasmine.Ajax.requests.mostRecent().status).toBe(200);
         });
 

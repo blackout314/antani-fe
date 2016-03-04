@@ -1,11 +1,11 @@
-'use strict'
+'use strict';
 
 var RestAdapter = function (serviceEndpointBaseURL) {
     this.serviceEndpointBaseURL = serviceEndpointBaseURL || "https://antani-be.herokuapp.com";
     this.sendRequest = function (verb, path, onReadyCallback) {
         var xhr = new XMLHttpRequest();
 
-        xhr.setRequestHeader("Content-Type","application/json;Charset=UTF-8");
+        xhr.setRequestHeader("Content-Type", "application/json;Charset=UTF-8");
         xhr.onreadystatechange = onReadyCallback;
         xhr.open(verb, this.serviceEndpointBaseURL + path, true);
 
