@@ -11,6 +11,8 @@ module.exports = function (config) {
             'app/view*/**/*.js'
         ],
 
+        reporters:        ['mocha'],
+
         autoWatch: true,
 
         frameworks: ['jasmine-ajax', 'jasmine'],
@@ -22,6 +24,7 @@ module.exports = function (config) {
             'karma-firefox-launcher',
             'karma-jasmine',
             'karma-jasmine-ajax',
+            'karma-mocha-reporter',
             'karma-junit-reporter'
         ],
 
